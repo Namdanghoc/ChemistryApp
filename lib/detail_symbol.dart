@@ -6,6 +6,12 @@ class DetailSymbol extends StatelessWidget {
   final chemicalsymbol detailsymbol;
   DetailSymbol({required this.detailsymbol});
 
+  final player = AudioPlayer();
+
+  void playSound() async {
+    await player.play(AssetSource('assets/audio/Bản ghi Mới.mp4'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,10 +20,9 @@ class DetailSymbol extends StatelessWidget {
         actions: [
           ElevatedButton(
               onPressed: () {
-                final player = AudioCache();
-                player.play('Bản ghi Mới.m4a');
+                playSound();
               },
-              child: Icon(Icons.speaker))
+              child: Icon(Icons.volume_up))
         ],
       ),
       body: Center(
