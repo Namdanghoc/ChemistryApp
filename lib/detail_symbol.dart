@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'chemical_symbol.dart';
+import 'setting.dart';
 
 class DetailSymbol extends StatelessWidget {
   final chemicalsymbol detailsymbol;
@@ -9,7 +10,8 @@ class DetailSymbol extends StatelessWidget {
   final player = AudioPlayer();
 
   void playSound() async {
-    await player.play(AssetSource('assets/audio/Bản ghi Mới.mp4'));
+    await player
+        .play(AssetSource('mp3_elements/${detailsymbol.nomenclature}.mp3'));
   }
 
   @override

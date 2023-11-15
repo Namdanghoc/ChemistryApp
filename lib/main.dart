@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/content.dart';
-import 'package:my_app/searchscreen.dart';
-import 'package:my_app/setting.dart';
+import 'package:provider/provider.dart';
+import 'compound.dart';
+import 'content.dart';
+import 'setting.dart';
+import 'searchscreen.dart';
+import 'Provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,34 +13,43 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
-        length: 3, // Số lượng tab
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('MENU'),
-            centerTitle: true,
-            backgroundColor: Colors.deepPurple[200],
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: 'Tìm kiếm'), // Tab với tên 'Tìm kiếm',
-                Tab(
-                  text: 'Mục lục', //Tab với tên 'Mục lục'
-                ),
-                Tab(
-                  text: 'Cài đặt', //Tab với tên 'Cài đặt'
-                ),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              SearchScreen(), // Màn hình tìm kiếm
-              Contents(),
-              Setting(),
+    return ChangeNotifierProvider(
+      create: (_) => LanguageProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: MyHomePage(),
+      ),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('MENU'),
+          centerTitle: true,
+          backgroundColor: Colors.deepPurple[200],
+          bottom: TabBar(
+            tabs: [
+              Tab(text: languageProvider.isEnglish ? 'Element' : 'Nguyên tố'),
+              Tab(text: languageProvider.isEnglish ? 'Compound' : 'Hợp chất'),
+              Tab(text: languageProvider.isEnglish ? 'Library' : 'Mục lục'),
+              Tab(text: languageProvider.isEnglish ? 'Setting' : 'Cài đặt'),
             ],
           ),
+        ),
+        body: TabBarView(
+          children: [
+            SearchScreen(),
+            Compounds(),
+            Contents(),
+            Setting(),
+          ],
         ),
       ),
     );

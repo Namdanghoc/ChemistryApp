@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/chemical_symbol.dart';
 import 'package:my_app/detail_symbol.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   List<chemicalsymbol> searchResults = [];
+  final player = AudioPlayer();
 
   void search(String query) {
     setState(() {
@@ -25,6 +27,10 @@ class _SearchScreenState extends State<SearchScreen> {
         builder: (context) => DetailSymbol(detailsymbol: detailsymbol),
       ),
     );
+  }
+
+  void Read(String name) async {
+    await player.play(AssetSource('mp3_elements/${name}.mp3'));
   }
 
   @override
@@ -56,6 +62,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       Text(
                           "Nguyên tử khối: ${searchResults[index].atomicblock}"),
                     ],
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.volume_up),
+                    onPressed: () {
+                      String name = searchResults[index].nomenclature;
+                      Read(name);
+                    },
                   ),
                   onTap: () {
                     navigateToSymbolDetail(searchResults[index]);
